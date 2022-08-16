@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CodingTracker
 {
 
-    [Table("CodingSession")]
+
     internal class CodingSession
     {
 
@@ -29,16 +29,12 @@ namespace CodingTracker
             return _codingSession;
         }
 
-        [Key]
         public int? Id { get; set; }
 
-        [Required]
         public DateTime StartTime { get; set; }
 
-        [Required]
         public DateTime EndTime { get; set; }
 
-        [Required]
         public DateTime Duration { get; set; }
     }
 
