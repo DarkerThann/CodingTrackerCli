@@ -35,7 +35,7 @@ namespace CodingTracker
 
         public DateTime EndTime { get; set; }
 
-        public DateTime Duration { get; set; }
+        public TimeSpan Duration { get; set; }
     }
 
 
