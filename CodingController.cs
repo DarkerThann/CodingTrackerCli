@@ -74,8 +74,8 @@ namespace CodingTracker
 
                     foreach (var sessions in codingSessions)
                     {
-                        Console.WriteLine($"ID: {sessions.Id} | StartTime: {sessions.StartTime} | EndTime: {sessions.EndTime} | Duration {sessions.Duration}");
-                        Console.WriteLine("---------------------------------------------------------------");
+                        Console.WriteLine($"ID: {sessions.Id} | StartTime: {sessions.StartTime} | EndTime: {sessions.EndTime} | Duration {sessions.Duration} |");
+                        Console.WriteLine("-------------------------------------------------------------------------------------------");
                     }
                 }
             }
