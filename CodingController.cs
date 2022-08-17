@@ -1,11 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodingTracker
 {
@@ -52,7 +46,7 @@ namespace CodingTracker
                         @"
                             SELECT Id, StartTime, EndTime, Duration
                             FROM CodingTracker
-                        ";                   
+                        ";
 
                     SqliteDataReader reader = CommandTable.ExecuteReader();
 
@@ -66,7 +60,7 @@ namespace CodingTracker
                             coding.Id = Convert.ToInt32(reader["Id"]);
                             coding.StartTime = DateTime.ParseExact((string)reader["StartTime"], "dd/MM/yyyy HH:mm:ss", null);
                             coding.EndTime = DateTime.ParseExact((string)reader["EndTime"], "dd/MM/yyyy HH:mm:ss", null);
-                            coding.Duration = DateTime.ParseExact((string)reader["Duration"], "dd/MM/yyyy HH:mm:ss", null);
+                            coding.Duration = TimeSpan.Parse((string)reader["Duration"]);
 
                             codingSessions.Add(coding);
                         }
@@ -80,10 +74,11 @@ namespace CodingTracker
 
                     foreach (var sessions in codingSessions)
                     {
-                        Console.WriteLine($"ID: {sessions.Id} | StartTime: {sessions.StartTime} | EndTime: {sessions.EndTime}");
+                        Console.WriteLine($"ID: {sessions.Id} | StartTime: {sessions.StartTime} | EndTime: {sessions.EndTime} | Duration {sessions.Duration}");
+                        Console.WriteLine("---------------------------------------------------------------");
                     }
                 }
-            }            
+            }
         }
 
         public void CreateCodingSession()
@@ -94,23 +89,23 @@ namespace CodingTracker
                 {
                     connection.Open();
 
-                    CommandTable.CommandText = 
+                    CommandTable.CommandText =
                         @"
-                            INSERT INTO CodingTracker (StartTime,EndTime) 
-                            Values($StartTime, $EndTime)
-                        ";                   
+                            INSERT INTO CodingTracker (StartTime,EndTime, Duration) 
+                            Values($StartTime, $EndTime, $Duration)
+                        ";
 
                     CodingSession coding = CodingSession.GetInstance();
 
                     CommandTable.Parameters.AddWithValue("$StartTime", coding.StartTime.ToString());
                     CommandTable.Parameters.AddWithValue("$EndTime", coding.EndTime.ToString());
-
+                    CommandTable.Parameters.AddWithValue("$Duration", coding.Duration.ToString());
                     CommandTable.ExecuteNonQuery();
 
                     connection.Close();
                 }
             }
-        
+
         }
 
         public void UpdateCodingSession()
@@ -131,7 +126,7 @@ namespace CodingTracker
                     CodingSession coding = CodingSession.GetInstance();
 
                     CommandTable.Parameters.AddWithValue("$Id", coding.Id);
-                    CommandTable.Parameters.AddWithValue("$StartTime", coding.StartTime.ToString()) ;
+                    CommandTable.Parameters.AddWithValue("$StartTime", coding.StartTime.ToString());
                     CommandTable.Parameters.AddWithValue("$EndTime", coding.EndTime.ToString());
                     CommandTable.Parameters.AddWithValue("$Duration", coding.Duration.ToString());
 
