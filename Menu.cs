@@ -22,7 +22,6 @@
             {
                 Console.WriteLine(options);
             }
-            controller.CheckIfTableExists();
             MenuChoise();
         }
 
@@ -106,7 +105,7 @@
                     }
                 }
                 catch (Exception)
-                {
+                {                    
                     Console.Write("Opção inválida.\nPor favor Digite novamente:");
                 }
             }

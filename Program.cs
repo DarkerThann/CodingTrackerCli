@@ -6,6 +6,9 @@ namespace CodingTracker
     {
         static void Main(string[] args)
         {
+            CodingController db = new CodingController();
+            db.CheckIfTableExists();
+
             Menu menu = new Menu();
             menu.MenuOptions();
         }
